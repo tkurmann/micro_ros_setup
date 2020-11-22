@@ -27,6 +27,7 @@ This package is the **official build system for micro-ROS**. It provides tools a
 | [FreeRTOS](https://www.freertos.org/)    | [ST Nucleo F446ZE](https://www.st.com/en/evaluation-tools/nucleo-f446ze.html)  <sup>1</sup>          | STM32CubeMX latest   | `freertos nucleo_f446ze`     |
 | [FreeRTOS](https://www.freertos.org/)    | [ST Nucleo F746ZG](https://www.st.com/en/evaluation-tools/nucleo-f746zg.html)  <sup>1</sup>          | STM32CubeMX latest   | `freertos nucleo_f746zg`     |
 | [FreeRTOS](https://www.freertos.org/)    | [Espressif ESP32](https://www.espressif.com/en/products/socs/esp32/overview)                         | v8.2.0               | `freertos esp32`             |
+| [FreeRTOS](https://www.freertos.org/)    | [Coral imx8](https://coral.ai/products/dev-board)                         |               | `freertos coral_imx8`             |
 | [Zephyr](https://www.zephyrproject.org/) | [Olimex STM32-E407](https://www.olimex.com/Products/ARM/ST/STM32-E407/open-source-hardware)          | v2.4.99              | `zephyr olimex-stm32-e407`   |
 | [Zephyr](https://www.zephyrproject.org/) | [ST B-L475E-IOT01A](https://docs.zephyrproject.org/latest/boards/arm/disco_l475_iot1/doc/index.html) | v2.4.99              | `zephyr discovery_l475_iot1` |
 | [Zephyr](https://www.zephyrproject.org/) | [ST Nucleo H743ZI](https://www.st.com/en/evaluation-tools/nucleo-h743zi.html) <sup>1</sup>           | v2.4.99              | `zephyr nucleo_h743zi`       |
@@ -94,14 +95,8 @@ You can find tutorials for moving your first steps with micro-ROS on an RTOS in 
 Using the `create_firmware_ws.sh [RTOS] [Platform]` command, a firmware folder will be created with the required code for building a micro-ROS app. For example, for our reference platform, the invocation is:
 
 ```bash
-# Creating a NuttX + micro-ROS firmware workspace
-ros2 run micro_ros_setup create_firmware_ws.sh nuttx olimex-stm32-e407
-
 # Creating a FreeRTOS + micro-ROS firmware workspace
-ros2 run micro_ros_setup create_firmware_ws.sh freertos olimex-stm32-e407
-
-# Creating a Zephyr + micro-ROS firmware workspace
-ros2 run micro_ros_setup create_firmware_ws.sh zephyr olimex-stm32-e407
+ros2 run micro_ros_setup create_firmware_ws.sh freertos coral_imx8
 ```
 
 ## Configuring micro-ROS firmware
@@ -115,10 +110,7 @@ ros2 run micro_ros_setup configure_firmware.sh [configuration] [options]
 By running this command without any argument the available demo applications and configurations will be shown.
 
 Common options available at this configuration step are:
-  - `--transport` or `-t`: `udp`, `serial` or any hardware specific transport label
-  - `--dev` or `-d`: agent string descriptor in a serial-like transport
-  - `--ip` or `-i`: agent IP in a network-like transport
-  - `--port` or `-p`: agent port in a network-like transport
+  - `--transport` or `-t`: `serial` or any hardware specific transport label
 
 
 Please note that each RTOS has its configuration approach that you might use for further customization of these base configurations. Visit the [micro-ROS webpage](https://micro-ros.github.io/docs/tutorials/core/first_application_rtos/) for detailed information about RTOS configuration.
@@ -134,6 +126,7 @@ In summary, the supported configurations for transports are:
 | ST Nucleo F446ZE <sup>1</sup> |         -          |       UART        |         -          |
 | ST Nucleo H743ZI <sup>1</sup> |         -          |         -         |        UART        |
 | ST Nucleo F746ZG <sup>1</sup> |         -          |       UART        |        UART        |
+| Coral imx8 |         -          |       -        |        RPMSG (UART)        |
 
 *<sup>1</sup> Community supported, may have lack of official support*
 
@@ -146,6 +139,7 @@ ros2 run micro_ros_setup build_firmware.sh
 ```
 
 ## Flashing micro-ROS firmware
+Note: Flashing is not supported by the coral-imx8 build. Please see the freertos repo for instructions
 
 In order to flash the target platform run `flash_firmware.sh` command.
 This step may need some platform-specific procedure to boot the platform in flashing mode:
