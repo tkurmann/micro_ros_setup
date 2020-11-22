@@ -11,7 +11,7 @@ function help {
 echo $CONFIG_NAME > $FW_TARGETDIR/APP
 
 
-elif [ "$UROS_TRANSPORT" == "serial" ]; then
+if [ "$UROS_TRANSPORT" == "serial" ]; then
       echo "Using serial device USART$UROS_AGENT_DEVICE."
 
       cp -f $EXTENSIONS_DIR/Src/imx_serial_transport.c $FW_TARGETDIR/mcu_ws/eProsima/Micro-XRCE-DDS-Client/src/c/profile/transport/serial/serial_transport_external.c
